@@ -1,9 +1,10 @@
 require 'airport'
-require 'plane'
 
 describe Airport do
 
-	let(:airport) {Airport.new(capacity: 2)}
+	include Weather
+
+	let(:airport) {Airport.new}
 	let(:plane) {double :plane}
 
   def fill_airport(airport)
@@ -41,21 +42,18 @@ describe Airport do
 		end
 	end
 
-		# Include a weather condition using a module.
-    # The weather must be random and only have two states "sunny" or "stormy".
-    # Try and take off a plane, but if the weather is stormy, the plane can not take off and must remain in the airport.
-    # 
-    # This will require stubbing to stop the random return of the weather.
-    # If the airport has a weather condition of stormy,
-    # the plane can not land, and must not be in the airport
-
 	context 'weather condition' do
 		it 'a plane cannot take off if there is a storm brewing' do
+			allow(airport).to receive(:weather_rand).and_return("stormy")
+			expect(lambda { airport.take_off(plane) }).to raise_error(RuntimeError, "Take off permission denied")
 		end
 
-		it 'a plane cannot land in a middle of a storm' do
+		xit 'a plane cannot land in a middle of a storm' do
+			allow(airport).to receive(:weather_rand).and_return("stormy")
+			expect(lambda { airport.land(plane) }).to raise_error(RuntimeError, "Land permission denied")
 		end
 	end
+
 end
 
 
