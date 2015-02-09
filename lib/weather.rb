@@ -1,7 +1,6 @@
 module Weather
 
-  def weather_rand
-    chance = rand(10)
-    chance < 5 ? "sunny" : "stormy"
+  def stormy_weather?
+    [false, true].sample
   end
 end

@@ -4,32 +4,34 @@ class Airport
 
   include Weather
 
-	DEFAULT_CAPACITY = 20
+  DEFAULT_CAPACITY = 102
 
-	attr_reader :planes
-	attr_reader :capacity
+  attr_reader :capacity
 
-	def initialize(options = {})
-	 	@capacity = options.fetch(:capacity, DEFAULT_CAPACITY)
-	 	@planes ||= []
-	end
+  def initialize(specs = {})
+    @capacity = specs.fetch(:capacity, DEFAULT_CAPACITY)
+    @planes   = []
+  end
 
-	def land(plane)
-		raise "Airport is full" if full?
-		planes << plane
-    # raise "Land permission denied" if weather_rand == 'stormy'
-	end
+  def land(plane)
+    raise "Land permission denied" if stormy_weather? == true
+    raise "Airport is full" if full?
+    @planes << plane.land!
+  end
 
-	def take_off(plane)
-		planes.delete(plane)
-    raise "Take off permission denied" if weather_rand == 'stormy'
-	end
+  def take_off(plane)
+    raise "Take off permission denied" if stormy_weather? ==true
+    @planes.delete(plane.land!)
+    plane.take_off!
+  end
 
-	def planes_count
-		planes.count
-	end
+  def planes_count
+    @planes.count
+  end
 
-	def full?
-		planes_count == capacity
-	end
+  def full?
+    planes_count == capacity
+  end
+
 end
+

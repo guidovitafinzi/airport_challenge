@@ -8,12 +8,7 @@ class Plane
 		@flying
 	end
 
-	def in_the_air!
-		@flying = true
-		self
-	end
-
-	def landed!
+	def land!
 		@flying = false
 		self
 	end
